@@ -1,27 +1,16 @@
 name: build-release
 on:
-    push:
-        branches:
-            - main
-        paths:
-            - version.json
+    workflow_dispatch:
 
 jobs:
     build:
-        runs-on: ${{ matrix.os }}
-        strategy:
-            max-parallel: 1
-            fail-fast: false
-            matrix:
-                os: [ ubuntu-latest, windows-latest ]
-                php-versions: [ '7.4' ]
-
+        runs-on: ubuntu-latest
         steps:
             -   uses: actions/checkout@v2
             -   name: Setup PHP 7.4
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: ${{ matrix.php-versions }}
+                    php-version: '7.4'
                     extensions: fileinfo
                     coverage: none
             -   name: Installed versions
@@ -30,15 +19,12 @@ jobs:
                 uses: ramsey/composer-install@v1
             -   name: Run phpstan
                 run: vendor/bin/phpstan analyse --no-progress
-    deploy:
-        runs-on: ubuntu-latest
-        steps:
             -   name: Read Release version
                 uses: HardNorth/github-version-generate@v1.1.1
                 with:
                     version-source: file
-                    version-file: version.json
-                    version-file-extraction-pattern: '(?<=version=).+'
+                    version-file: 'version.json'
+                    version-file-extraction-pattern: '"version":\s*"([^"]+)"'
             -   name: Print Release version
                 run: echo "Releasing $CURRENT_VERSION"
             -   name: create-release
