@@ -39,14 +39,6 @@ jobs:
             -   name: Run phpstan
                 run: vendor/bin/phpstan analyse --no-progress
             -   name: Run phpunit
-                env:
-                    CHECKOUT_SECRET_KEY: ${{ secrets.IT_CHECKOUT_SECRET_KEY }}
-                    CHECKOUT_PUBLIC_KEY: ${{ secrets.IT_CHECKOUT_PUBLIC_KEY }}
-                    CHECKOUT_FOUR_SECRET_KEY: ${{ secrets.IT_CHECKOUT_FOUR_SECRET_KEY }}
-                    CHECKOUT_FOUR_PUBLIC_KEY: ${{ secrets.IT_CHECKOUT_FOUR_PUBLIC_KEY }}
-                    CHECKOUT_FOUR_OAUTH_CLIENT_ID: ${{ secrets.IT_CHECKOUT_FOUR_OAUTH_CLIENT_ID }}
-                    CHECKOUT_FOUR_OAUTH_CLIENT_SECRET: ${{ secrets.IT_CHECKOUT_FOUR_OAUTH_CLIENT_SECRET }}
-                run: vendor/bin/phpunit --verbose --testdox
             -   name: create-release
                 uses: actions/create-release@v1
                 env:
