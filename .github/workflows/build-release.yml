@@ -24,20 +24,23 @@ jobs:
                     php-version: ${{ matrix.php-versions }}
                     extensions: fileinfo
                     coverage: none
-            -   name: Read Release version
-                uses: HardNorth/github-version-generate@v1.1.1
-                with:
-                    version-source: file
-                    version-file: gradle.properties
-                    version-file-extraction-pattern: '(?<=version=).+'
-            -   name: Print Release version
-                run: echo "Releasing $CURRENT_VERSION"
             -   name: Installed versions
                 run: php -v
             -   name: Install Composer dependencies
                 uses: ramsey/composer-install@v1
             -   name: Run phpstan
                 run: vendor/bin/phpstan analyse --no-progress
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Read Release version
+                uses: HardNorth/github-version-generate@v1.1.1
+                with:
+                    version-source: file
+                    version-file: version.json
+                    version-file-extraction-pattern: '(?<=version=).+'
+            -   name: Print Release version
+                run: echo "Releasing $CURRENT_VERSION"
             -   name: create-release
                 uses: actions/create-release@v1
                 env:
