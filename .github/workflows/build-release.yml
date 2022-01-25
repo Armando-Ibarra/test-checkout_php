@@ -3,11 +3,10 @@ on:
     push:
         paths:
             - version.json
-    workflow_dispatch:
 
 jobs:
     build:
-        if: github.ref == 'refs/heads/master'
+        if: "!contains(github.event.commits[0].message, 'skip main')"
         runs-on: ${{ matrix.os }}
         strategy:
             max-parallel: 1
@@ -18,27 +17,26 @@ jobs:
 
         steps:
             -   uses: actions/checkout@v2
-            -   name: read-release-version
-            -   uses: HardNorth/github-version-generate@v1.1.1
-            -   with:
-                    version-source: file
-                    version-file: version.json
-                    version-file-extraction-pattern: '(?<=version=).+'
-            -   name: print-version
-                run: echo "Releasing $CURRENT_VERSION"
             -   name: Setup PHP 7.4
                 uses: shivammathur/setup-php@v2
                 with:
                     php-version: ${{ matrix.php-versions }}
                     extensions: fileinfo
                     coverage: none
+            -   name: Read Release version
+                uses: HardNorth/github-version-generate@v1.1.1
+                with:
+                    version-source: file
+                    version-file: gradle.properties
+                    version-file-extraction-pattern: '(?<=version=).+'
+            -   name: Print Release version
+                run: echo "Releasing $CURRENT_VERSION"
             -   name: Installed versions
                 run: php -v
             -   name: Install Composer dependencies
                 uses: ramsey/composer-install@v1
             -   name: Run phpstan
                 run: vendor/bin/phpstan analyse --no-progress
-            -   name: Run phpunit
             -   name: create-release
                 uses: actions/create-release@v1
                 env:
