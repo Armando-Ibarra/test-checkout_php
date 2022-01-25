@@ -1,7 +1,7 @@
 {
     "name": "armando-ibarra/test-php",
     "description": "Checkout.com SDK for PHP",
-    "version": "0.0.0-beta1",
+    "version": "0.0.0-beta2",
     "homepage": "https://github.com/Armando-Ibarra/test-checkout_php",
     "type": "library",
     "license": "MIT",
