@@ -1,8 +1,7 @@
 {
-    "name": "checkout/checkout-sdk-php",
+    "name": "armando-ibarra/test-php",
     "description": "Checkout.com SDK for PHP",
-    "homepage": "https://github.com/checkout/checkout-sdk-php-beta",
-    "version": "2.0.0-beta1",
+    "homepage": "https://github.com/Armando-Ibarra/test-checkout_php",
     "type": "library",
     "license": "MIT",
     "keywords": [
@@ -21,9 +20,9 @@
     ],
     "authors": [
         {
-            "name": "Checkout.com",
-            "homepage": "https://github.com/checkout/checkout-sdk-php/graphs/contributors",
-            "email": "integrations@checkout.com"
+            "name": "Armando Ibarra",
+            "homepage": "https://github.com/Armando-Ibarra",
+            "email": "aibarrakerzon@gmail.com"
         }
     ],
     "require": {
@@ -32,7 +31,8 @@
         "guzzlehttp/guzzle": "^7.4.1",
         "symfony/polyfill-php80": "^1.23.1",
         "symfony/deprecation-contracts": "^2.5",
-        "ext-fileinfo": "*"
+        "ext-fileinfo": "*",
+        "wikimedia/composer-merge-plugin": "^2.0"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.2.0",
@@ -51,5 +51,13 @@
         "psr-4": {
             "Checkout\\Tests\\": "test/Checkout/Tests/"
         }
+    },
+    "extra": {
+        "merge-plugin": {
+            "include": [
+                "version.local.json"
+            ]
+        }
     }
+
 }
