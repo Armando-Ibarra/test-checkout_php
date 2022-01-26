@@ -1,6 +1,10 @@
 name: build-release
 on:
-    workflow_dispatch:
+    push:
+        branches:
+            - main
+        paths:
+            - version.json
 
 jobs:
     build:
